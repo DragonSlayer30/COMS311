@@ -74,13 +74,12 @@ public class TestAssignment {
 	public void testWarWithArray() {
 				//String[] warWithArray = {"ABC", "BCD", "CDE", "DEF", "EFG", "FGH", "GHI"};
 				//String[] warWithArray = {"AAA","BBB"};
-				String[] warWithArray = {"AD","AC", "CC", "BC", "CA"};
+				String[] warWithArray = {"AC","AD", "CA", "CC"};
 				ArrayList<String> correctAns = new ArrayList<String>();
 				/*
 				correctAns.add("ABCDEF");
 				correctAns.add("BCDEFG");
 				correctAns.add("CDEFGH");
-				correctAns.add("DEFGHI");
 				correctAns.add("DEFGHI");
 				*/
 				/*
@@ -98,10 +97,19 @@ public class TestAssignment {
 				correctAns.add("CCAD");
 				correctAns.add("CCCA");
 				correctAns.add("CCCC");
+				
 				long initTime = System.currentTimeMillis();
 				WarWithArray withArray = new WarWithArray(warWithArray, warWithArray[0].length());
 				withArray.debug = false;
 				boolean answerCheck = true;
+				
+				withArray.binarySearch(warWithArray, 0, warWithArray.length, "FGH");
+				/*
+				for (String string : warWithArray) {
+					if(withArray.binarySearch(warWithArray, 0, warWithArray.length, string) < 0) System.out.println(string);
+				}
+				*/
+				
 				ArrayList<String> list = withArray.compute2k();
 				System.out.println("Time taken for Array : " + (System.currentTimeMillis() - initTime));
 				System.out.println("Size of answer : " + list.size() + " IT should be : " + correctAns.size());

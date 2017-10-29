@@ -20,16 +20,9 @@ public class WarWithArray
 	{
 		if(s != null && s.length > 0) {
 			givenSubStrings = s;
-			for (String string : s) {
-				System.out.println(string);
-			}
 			sortArr(givenSubStrings,0,givenSubStrings.length - 1);
 		}
 		if(k > 0) lengthOfStrings = k; 
-		System.out.println("After sorting : ");
-		for (String string : s) {
-			System.out.println(string);
-		}
 	}
 
 	public void sortArr(String givenArr[], int left, int right)
@@ -87,19 +80,14 @@ public class WarWithArray
 	}
 
 	public int binarySearch(String givenArr[], int left, int right, String needle)
-	{
-		if (right < left)
+	{	
+		if (right < left || ((right == left) && right == givenArr.length))
 			return -1;
 
 		int mid = (left + right)/2;  
-		switch (needle.compareTo(givenArr[mid])) {
-		case 0:
-			return mid;
-		case 1: 
-			return binarySearch(givenArr, (mid + 1), right, needle);
-		default:
-			break;
-		}
+		int compare = needle.compareTo(givenArr[mid]);
+		if(compare == 0) return mid;
+		else if(compare >  0) return binarySearch(givenArr, (mid + 1), right, needle);
 		return binarySearch(givenArr, left, (mid -1), needle);
 	}
 
@@ -114,7 +102,7 @@ public class WarWithArray
 		if(givenSubStrings == null || lengthOfStrings == 0) return substring2klength;
 		// outer loop
 		for (String stringK : givenSubStrings) {
-			ArrayList<String> temp = generate2KstringArray(stringK);
+			ArrayList<String> temp = generate2kByLoop(stringK);
 			if(!temp.isEmpty()) {
 				substring2klength.addAll(temp);
 				for (String stringDouble : temp) {
@@ -232,6 +220,31 @@ public class WarWithArray
 			for (String string : list) {
 				System.out.println("Strings generated for " + stringK + " : " + string);
 			}
+		}
+		return list;
+	}
+
+	public ArrayList<String> generate2kByLoop(String stringK) {
+		if(debug) System.out.println("generating for string : " + stringK);
+		ArrayList<String> list = new ArrayList<String>();
+		int k = stringK.length();
+		boolean check = true;
+		for (String given : givenSubStrings) {
+			String combinedString = stringK.concat(given);
+			check = true;
+			for(int i = 1; i < k ; i++) {
+				System.out.println("Combined String " + combinedString + " Substring : " + combinedString.substring(i, i + k));
+				System.out.println("Search :" + binarySearch(givenSubStrings, 0, givenSubStrings.length, combinedString.substring(i, i + k)));
+				if(binarySearch(givenSubStrings, 0, givenSubStrings.length, combinedString.substring(i, i + k)) < 0) {
+					check = false;
+					break;
+				}
+			}
+			if(check) {
+				System.out.println("Adding : " + combinedString);
+				list.add(combinedString);
+			}
+			else System.out.println("Flag is false");
 		}
 		return list;
 	}
