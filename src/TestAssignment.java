@@ -6,18 +6,18 @@ public class TestAssignment {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TestAssignment assignment = new TestAssignment();;
-		//assignment.testWarWithArray();
+		assignment.testWarWithArray();
 		//assignment.testWarWithHash();
-		assignment.testBinaryST();
+		//assignment.testBinaryST();
 	}
 	
 	private void testBinaryST() {
 		// TODO Auto-generated method stub
 		//String[] arrayStrings = {"ABC", "BCD", "CDE", "DEF", "EFG", "FGH", "GHI", "ABC", "BCD", "ABB", "AAA"};
 		//String[] arrayStrings = {"Y", "Z", "X", "A","B","C","U"};
-		//String[] arrayStrings = {"U", "B", "Y", "C", "X", "Z", "A", "D", "P", "E", "A", "I", "U"};
+		String[] arrayStrings = {"U", "B", "Y", "C", "X", "Z", "A", "D", "P", "E", "A", "I", "U"};
 		//String[] arrayStrings = {"U", "B", "Y", "C", "X"};
-		String[] arrayStrings = {"B", "A", "C", "B", "B"};
+		//String[] arrayStrings = {"A", "A", "B", "B", "B"};
 		HashSet<String> distinct = new HashSet<String>();
 		for (String string : arrayStrings) {
 			distinct.add(string);
@@ -31,8 +31,15 @@ public class TestAssignment {
 			System.out.print(string);
 		}
 		System.out.println("");
-		System.out.println("Height of tree : " + binaryST.remove("E"));
 		System.out.println("Height of tree : " + binaryST.height());
+		System.out.println("rank : " + binaryST.rankOf("U"));
+		System.out.println("Removing : " + binaryST.remove("A"));
+		System.out.println("Removing : " + binaryST.remove("A"));
+		for (String string : binaryST.preOrder()) {
+			System.out.print(string);
+		}
+		System.out.println("");
+		System.out.println("rank : " + binaryST.rankOf("U"));
 	}
 
 	public void testWarWithHash() {
@@ -67,7 +74,7 @@ public class TestAssignment {
 	public void testWarWithArray() {
 				//String[] warWithArray = {"ABC", "BCD", "CDE", "DEF", "EFG", "FGH", "GHI"};
 				//String[] warWithArray = {"AAA","BBB"};
-				String[] warWithArray = {"AC","AD", "CA", "CC"};
+				String[] warWithArray = {"AD","AC", "CC", "BC", "CA"};
 				ArrayList<String> correctAns = new ArrayList<String>();
 				/*
 				correctAns.add("ABCDEF");

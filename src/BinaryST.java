@@ -24,7 +24,9 @@ public class BinaryST
 	private int heightOfTree = 0;
 	private int tempHeightTracker = 0;
 	private int index = 0;
-	private int leftSubTreeCount = 0;
+	private int leftSubtree = 0;
+	private int rightSubtree = 0;
+	private int rankTracker = 0;
 
 	public BinaryST getRightChild() {
 		return rightChild;
@@ -74,6 +76,7 @@ public class BinaryST
 				parent.add(binaryElemt);
 			}
 		}
+		updateLeftRightSubtree(parent);
 	}
 
 	public int distinctSize()
@@ -149,6 +152,7 @@ public class BinaryST
 	{	
 		BinaryST st = this;
 		tempHeightTracker = 0;
+		rankTracker = 0;
 		while(!(st.leftChild == null && st.rightChild == null)) {
 			tempHeightTracker++;
 			switch (leftOrRight(s, st.value)) {
@@ -157,8 +161,12 @@ public class BinaryST
 				if(st.rightChild != null) {
 					switch (leftOrRight(s, st.rightChild.value)) {
 					case 0:
+						rankTracker = rankTracker + st.frequency + st.leftSubtree;
+						System.out.println("Rank track : " + rankTracker);
 						return st.rightChild;
 					default:
+						rankTracker = rankTracker + st.frequency + st.leftSubtree;
+						System.out.println("Rank Default : " + rankTracker);
 						st = st.rightChild;
 					} 
 				}
@@ -180,7 +188,7 @@ public class BinaryST
 		}
 		return st;
 	}
-
+	
 	public int frequency(String s)
 	{
 		BinaryST temp = searchParent(s);
@@ -204,7 +212,7 @@ public class BinaryST
 					else {
 						reduceFrequency(s, st);
 					}
-					//this.size = this.size - 1;
+					updateLeftRightSubtree(parent);updateLeftRightSubtree(parent);
 					return true;
 				case 1:
 					parentNode = st;
@@ -240,6 +248,7 @@ public class BinaryST
 					this.size = this.size - 1;
 				}
 			}
+			updateLeftRightSubtree(parent);
 			return true;
 		}
 		return false;
@@ -285,7 +294,9 @@ public class BinaryST
 
 	public int rankOf(String s)
 	{
-		return 0;
+		BinaryST st = searchParent(s);
+		if(st.value.compareTo(s) == 0) return st.leftSubtree + rankTracker; 
+		return st.leftSubtree;
 	}
 
 	public int leftOrRight(String s1, String s2) {
@@ -355,15 +366,27 @@ public class BinaryST
         }
 	}
 	
-	public int binarySearch(int arr[], int low, int high, int key)
+	public int binarySearch(String arr[], int low, int high, String key)
     {
        if (high < low)
            return -1;
        int mid = (low + high)/2;  
-       if (key == arr[mid])
+       if (key.compareTo(arr[mid]) == 0)
            return mid;
-       if (key > arr[mid])
+       if (key.compareTo(arr[mid]) > 0)
            return binarySearch(arr, (mid + 1), high, key);
        return binarySearch(arr, low, (mid -1), key);
     }
+	
+	public int updateLeftRightSubtree(BinaryST st) {
+		if (st == null)
+            return 0;
+        else
+        {	
+            st.leftSubtree = updateLeftRightSubtree(st.leftChild);
+            st.rightSubtree = updateLeftRightSubtree(st.rightChild);
+            System.out.println("St value : " + st.value + " " + st.leftSubtree + " " + st.rightSubtree);
+            return st.leftSubtree + st.frequency + st.rightSubtree;
+        }
+	}
 }

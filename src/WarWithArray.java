@@ -20,16 +20,87 @@ public class WarWithArray
 	{
 		if(s != null && s.length > 0) {
 			givenSubStrings = s;
+			for (String string : s) {
+				System.out.println(string);
+			}
+			sortArr(givenSubStrings,0,givenSubStrings.length - 1);
 		}
 		if(k > 0) lengthOfStrings = k; 
+		System.out.println("After sorting : ");
+		for (String string : s) {
+			System.out.println(string);
+		}
 	}
 
+	public void sortArr(String givenArr[], int left, int right)
+	{
+		if (left < right)
+		{
+			int mid = (left+right)/2;
+			sortArr(givenArr, left, mid);
+			sortArr(givenArr , mid+1, right);
+			mergeSort(givenArr, left, mid, right);
+		}
+	}
 
-	private String[] sortArray(String[] s) {
-		// TODO Auto-generated method stub
-		String[] tempArr = new String[s.length];
-		
-		return tempArr;
+	public void mergeSort(String givenArray[], int left, int mid, int right) {
+		int leftIndex = mid - left + 1;
+		int rightIndex = right - mid;
+
+		String leftArr[] = new String [leftIndex];
+		String rightArr[] = new String [rightIndex];
+
+		for (int i=0; i<leftIndex; ++i)
+			leftArr[i] = givenArray[left + i];
+		for (int j=0; j<rightIndex; ++j)
+			rightArr[j] = givenArray[mid + 1+ j];
+
+
+		int i = 0, j = 0;
+		int k = left;
+		while (i < leftIndex && j < rightIndex)
+		{
+			if (leftArr[i].compareTo(rightArr[j]) < 0 )
+			{
+				givenArray[k] = leftArr[i];
+				i++;
+			}
+			else
+			{
+				givenArray[k] = rightArr[j];
+				j++;
+			}
+			k++;
+		}
+		while (i < leftIndex)
+		{
+			givenArray[k] = leftArr[i];
+			i++;
+			k++;
+		}
+		while (j < rightIndex)
+		{
+			givenArray[k] = rightArr[j];
+			j++;
+			k++;
+		}
+	}
+
+	public int binarySearch(String givenArr[], int left, int right, String needle)
+	{
+		if (right < left)
+			return -1;
+
+		int mid = (left + right)/2;  
+		switch (needle.compareTo(givenArr[mid])) {
+		case 0:
+			return mid;
+		case 1: 
+			return binarySearch(givenArr, (mid + 1), right, needle);
+		default:
+			break;
+		}
+		return binarySearch(givenArr, left, (mid -1), needle);
 	}
 
 
@@ -51,7 +122,7 @@ public class WarWithArray
 				}
 			}
 		}
-		
+
 		return substring2klength;
 	}
 
@@ -124,7 +195,7 @@ public class WarWithArray
 		}
 		return list;
 	}
-	
+
 	private ArrayList<String> generate2KstringSorted(String stringK) {
 		// TODO Auto-generated method stub
 		if(debug) System.out.println("generating for string : " + stringK);
