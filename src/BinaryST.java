@@ -20,6 +20,7 @@ public class BinaryST
 	private int distinctSizeValue = 0;
 	private int heightOfTree = 0;
 	private int tempHeightTracker = 0;
+	private int index = 0;
 
 	public BinaryST getRightChild() {
 		return rightChild;
@@ -265,33 +266,42 @@ public class BinaryST
 
 	public String[] inOrder()
 	{	
-		printInorder(this);
-		return null;
+		this.index = 0;
+		String[] inOrderArr = new String[size];
+		returnInorder(this,inOrderArr);
+		this.index = 0;
+		return inOrderArr;
 	}
 
-	public void printInorder(BinaryST st) {
+	public void returnInorder(BinaryST st,String[] oderArray) {
 		if(st == null) return;
-		printInorder(st.leftChild);
+		returnInorder(st.leftChild, oderArray);
 		for (int i = 0; i < st.frequency; i++) {
-			System.out.print(st.value + ",");
+			oderArray[index] = st.value;
+			System.out.println( st.value + " : " + index);
+			index = index + 1;
 		}
-		printInorder(st.rightChild);
+		returnInorder(st.rightChild, oderArray);
 	}
 
 	public String[] preOrder()
 	{	
-		printPreorder(this);
-		System.out.println("");
-		return null;
+		this.index = 0;
+		String[] preorderArr = new String[size]; 
+		returnPreorder(this, preorderArr);
+		this.index = 0;
+		return preorderArr;
 	}
 
-	public void printPreorder(BinaryST st) {
+	public void returnPreorder(BinaryST st, String[] orderArray) {
 		if(st == null) return;
 		for (int i = 0; i < st.frequency; i++) {
-			System.out.print(st.value + ",");
+			System.out.println( st.value + " : " + index);
+			orderArray[index] = st.value;
+			index = index + 1;
 		}
-		printPreorder(st.leftChild);
-		printPreorder(st.rightChild);
+		returnPreorder(st.leftChild, orderArray);
+		returnPreorder(st.rightChild, orderArray);
 	}
 
 	public int rankOf(String s)

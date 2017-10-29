@@ -21,22 +21,13 @@ public class TestAssignment {
 			distinct.add(string);
 		}
 		BinaryST binaryST = new BinaryST(arrayStrings);
-		String searchTerm = "A";
-		System.out.println("Searching for string " + searchTerm + " : " + binaryST.search(searchTerm));
-		System.out.println("Searching for string " + searchTerm + " : " + binaryST.frequency(searchTerm));
-		System.out.println("Size of array " + arrayStrings.length + " " + binaryST.size());
-		System.out.println("Distinct size of array " + (distinct.size()) + " " + binaryST.distinctSize());
-		System.out.println("Height of Tree : " + binaryST.height());
-		System.out.println("Inorder of Tree : " + binaryST.inOrder());
-		System.out.println("PreOrder of Tree : " + binaryST.preOrder());
-		System.out.println("Deleting of Tree " +  searchTerm + " "  + binaryST.remove("U"));
-		System.out.println("Deleting of Tree " +  searchTerm + " "  + binaryST.remove("U"));
-		System.out.println("PreOrder of Tree : " + binaryST.preOrder());
-		System.out.println("Distinct answer of array " + (distinct.size() - 1)+ " " + binaryST.distinctSize());
-		System.out.println("Deleting of Tree " +  "I" + " "  + binaryST.remove("I"));
-		System.out.println("PreOrder of Tree : " + binaryST.preOrder());
-		System.out.println("Distinct answer of array " + (distinct.size() - 2)+ " " + binaryST.distinctSize());
-		System.out.println("Size of array " + (distinct.size()) + " " + binaryST.size());
+		for (String string : binaryST.inOrder()) {
+			System.out.print(string);
+		}
+		System.out.println("");
+		for (String string : binaryST.preOrder()) {
+			System.out.print(string);
+		}
 	}
 
 	public void testWarWithHash() {
