@@ -15,7 +15,9 @@ public class TestAssignment {
 		// TODO Auto-generated method stub
 		//String[] arrayStrings = {"ABC", "BCD", "CDE", "DEF", "EFG", "FGH", "GHI", "ABC", "BCD", "ABB", "AAA"};
 		//String[] arrayStrings = {"Y", "Z", "X", "A","B","C","U"};
-		String[] arrayStrings = {"U", "B", "Y", "C", "X", "Z", "A", "D", "P", "E", "A", "I", "U"};
+		//String[] arrayStrings = {"U", "B", "Y", "C", "X", "Z", "A", "D", "P", "E", "A", "I", "U"};
+		//String[] arrayStrings = {"U", "B", "Y", "C", "X"};
+		String[] arrayStrings = {"B", "A", "C", "B", "B"};
 		HashSet<String> distinct = new HashSet<String>();
 		for (String string : arrayStrings) {
 			distinct.add(string);
@@ -28,6 +30,9 @@ public class TestAssignment {
 		for (String string : binaryST.preOrder()) {
 			System.out.print(string);
 		}
+		System.out.println("");
+		System.out.println("Height of tree : " + binaryST.remove("E"));
+		System.out.println("Height of tree : " + binaryST.height());
 	}
 
 	public void testWarWithHash() {
@@ -117,4 +122,5 @@ public class TestAssignment {
 			}
 			return ans;
 		}
+		
 	}

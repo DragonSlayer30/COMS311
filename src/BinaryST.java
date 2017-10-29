@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.HashSet;
+
 // LEAVE THIS FILE IN THE DEFAULT PACKAGE
 //  (i.e., DO NOT add 'package cs311.pa1;' or similar)
 
@@ -21,6 +24,7 @@ public class BinaryST
 	private int heightOfTree = 0;
 	private int tempHeightTracker = 0;
 	private int index = 0;
+	private int leftSubTreeCount = 0;
 
 	public BinaryST getRightChild() {
 		return rightChild;
@@ -67,19 +71,7 @@ public class BinaryST
 	{
 		if(s != null || s.length != 0 ) {
 			for (String binaryElemt : s) {
-				System.out.println("Adding : " + binaryElemt);
 				parent.add(binaryElemt);
-				/*
-				BinaryST tempParent = parent.searchParent(binaryElemt);
-				BinaryST childBST = new BinaryST();
-				childBST.value = binaryElemt;
-				if(tempParent.value == null) { 
-					tempParent.value = binaryElemt; 
-					continue; 
-				}
-				if(binaryElemt.compareTo(tempParent.value) < 0) tempParent.leftChild = childBST;
-				else tempParent.rightChild = childBST;
-				 */
 			}
 		}
 	}
@@ -96,7 +88,7 @@ public class BinaryST
 
 	public int height()
 	{
-		return heightOfTree;
+		return calculateHeightOfTree(this);
 	}
 
 	public void add(String binaryElemt)
@@ -116,34 +108,27 @@ public class BinaryST
 			parent.size = parent.size + 1;
 			switch (leftOrRight(tempParent.value, binaryElemt)) {
 			case 0:
-				tempParent.frequency = tempParent.frequency + 1;
+				tempParent.frequency = tempParent.frequency + 1;	
 				break;
 			case 1:		
-				System.out.println("adding element as left child of " + tempParent.value);
 				if(tempParent.leftChild != null) {
 					if(leftOrRight(binaryElemt, tempParent.leftChild.value) > 0) {
-						System.out.println("moving left child " + tempParent.leftChild.value + " as leftchild");
 						childBST.leftChild = tempParent.leftChild;
 					}
 					else {
-						System.out.println("moving left child " + tempParent.leftChild.value + " as rightchild");
 						childBST.rightChild = tempParent.leftChild;
 					}
 				}
 				tempParent.leftChild = childBST;
 				parent.distinctSizeValue = parent.distinctSizeValue + 1;
-				if(tempHeightTracker == heightOfTree) heightOfTree++;
+				if(tempHeightTracker == heightOfTree) heightOfTree = heightOfTree + 1;;
 				break;
 			default:
-				System.out.println("adding element as right child of " + tempParent.value);
 				if(tempParent.rightChild != null) {
-					System.out.println("moving right child " + tempParent.rightChild.value);
 					if(leftOrRight(binaryElemt, tempParent.rightChild.value) > 0) {
-						System.out.println("moving left child " + tempParent.rightChild.value + " as leftchild");
 						childBST.leftChild = tempParent.rightChild;
 					}
 					else {
-						System.out.println("moving right child " + tempParent.rightChild.value + " as rightchild");
 						childBST.rightChild = tempParent.rightChild;
 					}
 				}
@@ -193,7 +178,6 @@ public class BinaryST
 				break;
 			}
 		}
-		System.out.println("Height Counter : " + tempHeightTracker);
 		return st;
 	}
 
@@ -212,12 +196,9 @@ public class BinaryST
 			if(st.value != null) {
 				switch (leftOrRight(s, st.value)) {
 				case 0:
-					System.out.println("Frequency of " + s + " " + st.frequency);
 					if(st.frequency == 1) {
-						rearrangeNode(parentNode, parentNode.leftChild, parentNode.rightChild);
-						System.out.println("Dist prev : " + this.distinctSizeValue);
+						rearrangeNode(parentNode, st.leftChild, st.rightChild);
 						this.distinctSizeValue = this.distinctSizeValue - 1;
-						System.out.println("Dist after : " + this.distinctSizeValue);
 						this.size = this.size - 1;
 					}
 					else {
@@ -278,7 +259,6 @@ public class BinaryST
 		returnInorder(st.leftChild, oderArray);
 		for (int i = 0; i < st.frequency; i++) {
 			oderArray[index] = st.value;
-			System.out.println( st.value + " : " + index);
 			index = index + 1;
 		}
 		returnInorder(st.rightChild, oderArray);
@@ -296,7 +276,6 @@ public class BinaryST
 	public void returnPreorder(BinaryST st, String[] orderArray) {
 		if(st == null) return;
 		for (int i = 0; i < st.frequency; i++) {
-			System.out.println( st.value + " : " + index);
 			orderArray[index] = st.value;
 			index = index + 1;
 		}
@@ -334,7 +313,6 @@ public class BinaryST
 		if(left == null && right == null) parent = new BinaryST();
 		if(right != null) {
 			BinaryST leftMostBST = returnLeftMostByDeleting(right);
-			System.out.println("Left Most : " + leftMostBST.value);
 			parent.value = leftMostBST.value;
 			parent.leftChild = left;
 			parent.rightChild = right;
@@ -360,4 +338,32 @@ public class BinaryST
 		st.frequency = st.frequency - 1;
 		this.size = this.size - 1;
 	}
+	
+	
+	public int calculateHeightOfTree(BinaryST st) {
+
+        if (st == null)
+            return 0;
+        else
+        {
+            int leftDepth = calculateHeightOfTree(st.leftChild);
+            int rightDepth = calculateHeightOfTree(st.rightChild);
+            if (leftDepth > rightDepth)
+                return (leftDepth + 1);
+             else
+                return (rightDepth + 1);
+        }
+	}
+	
+	public int binarySearch(int arr[], int low, int high, int key)
+    {
+       if (high < low)
+           return -1;
+       int mid = (low + high)/2;  
+       if (key == arr[mid])
+           return mid;
+       if (key > arr[mid])
+           return binarySearch(arr, (mid + 1), high, key);
+       return binarySearch(arr, low, (mid -1), key);
+    }
 }
